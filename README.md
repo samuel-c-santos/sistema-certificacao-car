@@ -1,6 +1,3 @@
-Aqui está um exemplo do arquivo `README.md` escrito em Markdown, com base no resumo e nas informações fornecidas:
-
-```markdown
 # Sistema de Certificação do Cadastro Ambiental Rural (CAR)
 
 ## Visão Geral
