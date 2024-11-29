@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f7fb;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilizando a barra de navegação */
+.navbar {
+    background-color: #00134d;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+/* Centralizar o menu */
+.navbar-right {
+    flex-grow: 1;
+    text-align: right;
+}
+
+/* Estilizando as imagens na barra de navegação */
+.navbar-left img {
+    height: 40px;
+    margin-right: 20px;
+}
+
+/* Estilizando os itens de texto e links */
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilizando os links para manter o texto branco */
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+/* Estilo para o menu principal */
+.main-menu {
+    background-color: #00134d;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 0;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-align: center; /* Centraliza o menu */
+}
+
+/* Estilo para os links do menu principal */
+.main-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+/* Efeito ao passar o mouse */
+.main-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Centralizar o conteúdo principal */
+.main-content {
+    margin: 0 auto; /* Centraliza horizontalmente */
+    max-width: 80%;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center; /* Centraliza o título */
+}
+
+p {
+    font-size: 1.2em;
+    color: #666;
+    text-align: left;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+input[type="submit"] {
+    background-color: #002aff;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0014cc;
+}

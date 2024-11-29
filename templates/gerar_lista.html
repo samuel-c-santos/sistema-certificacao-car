@@ -1,0 +1,79 @@
+<!DOCTYPE html> 
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Lista de Certificados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Combinar a barra de navegação e o menu principal em uma única div -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <img src="{{ url_for('static', filename='logo-branco.png') }}" alt="Logo Branco">
+            <img src="{{ url_for('static', filename='logo-regulariza-parabranco.png') }}" alt="Logo Regulariza Pará Branco">
+        </div>
+        
+        <div class="navbar-right">
+            <!-- Exibir o nome do usuário logado e o botão de logout -->
+            {% if session['usuario'] %}
+                <span>Bem-vindo, {{ session['usuario'] }}!</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- Menu principal embutido na navbar -->
+        <nav class="main-menu">
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('gerar_lista') }}">Gerar por lista</a>
+            <a href="{{ url_for('gerar_cpf') }}">Gerar por CPF/CNPJ</a>
+            <a href="{{ url_for('gerar_arquivos_modelo') }}">Gerar arquivo modelo</a>
+            <a href="{{ url_for('anular_lote') }}">Anular geração</a>
+            <a href="{{ url_for('baixar_lote') }}">Baixar lista por lote</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h1>Gerar Certificados por Lista</h1>
+
+        <!-- Exibir mensagens de erro ou sucesso -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message|safe }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulário para upload do arquivo Excel -->
+        <form action="{{ url_for('processar_geracao_lista') }}" method="POST" enctype="multipart/form-data">
+            <label for="tipo_certificado">Tipo de Certificado:</label>
+            <select name="tipo_certificado" id="tipo_certificado">
+                <option value="iru">IRU</option>
+                <option value="ast">AST</option>
+            </select>
+            <br><br>
+
+            <label for="arquivo">Envie o arquivo Excel (.xlsx):</label>
+            <input type="file" name="arquivo" id="arquivo" accept=".xlsx" required>
+            <br><br>
+
+            <button type="submit">Processar Lista</button>
+        </form>
+
+        <!-- Exibir link para download e texto de metadados se aplicável -->
+        {% if download_link %}
+            <h2>Download do Certificado Gerado:</h2>
+            <a href="{{ download_link }}" target="_blank">Clique aqui para baixar o certificado</a>
+            <br><br>
+
+            <h2>Metadados da Geração:</h2>
+            <pre>{{ mensagem|safe }}</pre> <!-- Exibe os metadados de forma estruturada -->
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Geração de Certificados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Barra de navegação -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <img src="{{ url_for('static', filename='logo-branco.png') }}" alt="Logo Branco">
+            <img src="{{ url_for('static', filename='logo-regulariza-parabranco.png') }}" alt="Logo Regulariza Pará Branco">
+        </div>
+        
+        <div class="navbar-right">
+            <!-- Exibir o nome do usuário logado e o botão de logout -->
+            {% if session['usuario'] %}
+                <span>Bem-vindo, {{ session['usuario'] }}!</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- Menu principal embutido na navbar -->
+        <nav class="main-menu">
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('gerar_lista') }}">Gerar por lista</a>
+            <a href="{{ url_for('gerar_cpf') }}">Gerar por CPF/CNPJ</a>
+            <a href="{{ url_for('gerar_arquivos_modelo') }}">Gerar arquivo modelo</a>
+            <a href="{{ url_for('anular_lote') }}">Anular geração</a>
+            <a href="{{ url_for('baixar_lote') }}">Baixar lista por lote</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Conteúdo principal -->
+        <h1>Confirmar Geração de Certificados</h1>
+
+        <form action="{{ url_for('confirmar_geracao') }}" method="POST">
+            <!-- Validados pelo CAR 2.0 -->
+            <p>Existem {{ validado_car20 }} registros Validados pelo CAR 2.0. Deseja gerar os certificados?</p>
+            <label><input type="radio" name="gerar_car20" value="Sim" required> Sim</label>
+            <label><input type="radio" name="gerar_car20" value="Não" required> Não</label>
+
+            <!-- Não Validados -->
+            <p>Existem {{ nao_validado }} registros Não Validados. Deseja gerar os certificados?</p>
+            <label><input type="radio" name="gerar_nao_validados" value="Sim" required> Sim</label>
+            <label><input type="radio" name="gerar_nao_validados" value="Não" required> Não</label>
+
+            <!-- Pendentes de Validação -->
+            <p>Existem {{ pendentes_validado }} registros Validados com Status Pendente. Deseja gerar os certificados?</p>
+            <label><input type="radio" name="gerar_pendentes" value="Sim" required> Sim</label>
+            <label><input type="radio" name="gerar_pendentes" value="Não" required> Não</label>
+
+            <button type="submit">Confirmar Geração</button>
+        </form>
+
+        <!-- Exibição de mensagens de flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message|safe }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+</body>
+</html>

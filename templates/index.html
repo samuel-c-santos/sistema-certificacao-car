@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Certificados CAR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <img src="{{ url_for('static', filename='logo-branco.png') }}" alt="Logo Branco">
+            <img src="{{ url_for('static', filename='logo-regulariza-parabranco.png') }}" alt="Logo Regulariza Pará Branco">
+        </div>
+        
+        <div class="navbar-right">
+            {% if session['usuario'] %}
+                <span>Bem-vindo, {{ session['usuario'] }}!</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+
+        <nav class="main-menu">
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('gerar_lista') }}">Gerar por lista</a>
+            <a href="{{ url_for('gerar_cpf') }}">Gerar por CPF/CNPJ</a>
+            <a href="{{ url_for('gerar_arquivos_modelo') }}">Gerar arquivo modelo</a>
+            <a href="{{ url_for('anular_lote') }}">Anular geração</a>
+            <a href="{{ url_for('baixar_lote') }}">Baixar lista por lote</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="text-image-container">
+            <div class="text-container">
+                <h1>Gerador de certificados de Cadastro Ambiental Rural validado da NIDGEO</h1>
+                <p>
+                    Este aplicativo permite gerar certificados para cadastros ambientais rurais tanto de imóveis do tipo IRU quanto de AST com base em uma listas ou CPF/CNPJ. Para iniciar, clique em um dos links acima.
+                </p>
+            </div>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='imagem_padrao.png') }}" alt="Imagem do Aplicativo">
+            </div>
+        </div>
+
+        <!-- Botão para atualizar a view materializada -->
+        <div class="refresh-button">
+            <form action="{{ url_for('refresh_view') }}" method="POST">
+                <button type="submit">Atualizar Estatísticas</button>
+            </form>
+        </div>        
+
+        <div class="dashboard">
+            <div class="card">
+                <h2 id="certificadosEmitidos" data-value="{{ total_certificados | default(0) }}">0</h2>
+                <p>Total de certificados emitidos</p>
+            </div>
+            <div class="card">
+                <h2 id="lotesGeracao" data-value="{{ total_lotes_geracao | default(0) }}">0</h2>
+                <p>Total de gerações em lote</p>
+            </div>
+            <div class="card">
+                <h2 id="lotesAST" data-value="{{ total_lotes_ast | default(0) }}">0</h2>
+                <p>Lotes gerados do tipo AST</p>
+            </div>
+            <div class="card">
+                <h2 id="lotesIRU" data-value="{{ total_lotes_iru | default(0) }}">0</h2>
+                <p>Lotes gerados do tipo IRU</p>
+            </div>
+            <div class="card">
+                <h2 id="areaTotal" data-value="{{ total_area_atingida | default(0) }}">0</h2>
+                <p>Área total alcançada (ha)</p>
+            </div>
+            <div class="card">
+                <h2 id="projetosAssentamento" data-value="{{ total_projetos_assentamento | default(0) }}">0</h2>
+                <p>Projetos de Assentamento alcançados</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Certificados por CPF/CNPJ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Combinar a barra de navegação e o menu principal em uma única div -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <img src="{{ url_for('static', filename='logo-branco.png') }}" alt="Logo Branco">
+            <img src="{{ url_for('static', filename='logo-regulariza-parabranco.png') }}" alt="Logo Regulariza Pará Branco">
+        </div>
+        
+        <div class="navbar-right">
+            <!-- Exibir o nome do usuário logado e o botão de logout -->
+            {% if session['usuario'] %}
+                <span>Bem-vindo, {{ session['usuario'] }}!</span>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- Menu principal embutido na navbar -->
+        <nav class="main-menu">
+            <a href="{{ url_for('index') }}">Início</a>
+            <a href="{{ url_for('gerar_lista') }}">Gerar por lista</a>
+            <a href="{{ url_for('gerar_cpf') }}">Gerar por CPF/CNPJ</a>
+            <a href="{{ url_for('gerar_arquivos_modelo') }}">Gerar arquivo modelo</a>
+            <a href="{{ url_for('anular_lote') }}">Anular geração</a>
+            <a href="{{ url_for('baixar_lote') }}">Baixar lista por lote</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h1>Gerar Certificados por CPF ou CNPJ</h1>
+        <p>Este módulo permite gerar certificados para imóveis individuais com base no CPF ou CNPJ de um proprietário.</p>
+
+        <!-- Exibição de mensagens de flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message|safe }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulário de busca de CPF/CNPJ -->
+        <form method="POST" action="{{ url_for('gerar_cpf') }}">
+            <label for="cpf_cnpj">Digite o CPF ou CNPJ:</label><br>
+            <input type="text" id="cpf_cnpj" name="cpf_cnpj" placeholder="Insira o CPF ou CNPJ" required><br><br>
+            
+            <label for="tipo_certificado">Selecione o Tipo de Certificado:</label><br>
+            <select class="form-control" id="tipo_certificado" name="tipo_certificado" required>
+                <option value="iru">Imóvel Rural (IRU)</option>
+                <option value="ast">Lote AST</option>
+            </select><br><br>
+            
+            <input type="submit" value="Pesquisar CAR Validados">
+        </form>        
+        
+        <!-- Se a busca trouxe imóveis, exiba a lista -->
+        {% if df_imoveis %}
+            <h2>CAR validados encontrados</h2>
+            <form method="POST" action="{{ url_for('confirmar_selecao') }}">
+                <ul>
+                    {% for imovel in df_imoveis %}
+                        <li>
+                            <input type="checkbox" name="imoveis_selecionados" value="{{ imovel['cod_imovel'] }}">
+                            {{ imovel['nom_imovel'] }} - {{ imovel['cod_imovel'] }} - {{ imovel['nom_municipio'] }}
+                        </li>                   
+                    {% endfor %}
+                </ul>
+                
+                <input type="hidden" name="tipo_certificado" value="{{ request.form['tipo_certificado'] }}">
+                <input type="submit" value="Confirmar Seleção">
+            </form>
+        {% else %}
+            {% if mensagem %}
+                <p>{{ mensagem }}</p>
+            {% endif %}
+        {% endif %}
+
+        <!-- Exibe o link para download caso os certificados sejam gerados -->
+        {% if download_link %}
+            <div class="download-link">
+                <a href="{{ download_link }}" class="btn btn-success">Baixar Certificados</a>
+            </div>
+        {% endif %}
+
+        <!-- Exibir metadados como tabela formatada -->
+        {% if metadados_texto %}
+            <h2>Metadados da Geração:</h2>
+            {{ metadados_texto|safe }}  <!-- Exibe a tabela de metadados gerada -->
+        {% endif %}
+
+    </div>
+</body>
+</html>
