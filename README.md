@@ -19,16 +19,16 @@ Este projeto tem como foco a **automação do processo de emissão de certificad
 - **Maior transparência** no processo de certificação, com controle sobre as ações realizadas.
 - **Eficiência na gestão de dados** dos imóveis rurais validados no estado do Pará.
 
-## Demonstrações
+## 🎬 Demonstrações
 
-### **1. Página Inicial e Login**
-Demonstração da interface inicial e processo de login: [Assistir no Vimeo](https://player.vimeo.com/video/1035004919?h=805fa5024b)
+### [▶️ Página Inicial e Login](https://player.vimeo.com/video/1035004919?h=805fa5024b)
+Demonstração da interface inicial e processo de login.
 
-### **2. Geração de Certificados por CPF/CNPJ**
-Demonstração da funcionalidade de geração de certificados por CPF ou CNPJ: [Assistir no Vimeo](https://player.vimeo.com/video/1035004850?h=86aba52290)
+### [▶️ Geração por CPF/CNPJ](https://player.vimeo.com/video/1035004850?h=86aba52290)
+Demonstração da funcionalidade para CPF ou CNPJ.
 
-### **3. Geração de Certificados por Lista**
-Demonstração da funcionalidade de geração de certificados por lista: [Assistir no Vimeo](https://player.vimeo.com/video/1035004865?h=2d347da33e)
+### [▶️ Geração por Lista](https://player.vimeo.com/video/1035004865?h=2d347da33e)
+Demonstração da geração de certificados em lote.
 
 
 ## Tecnologias Utilizadas
